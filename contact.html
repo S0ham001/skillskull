@@ -6,12 +6,13 @@
     <title>Contact - My Simple Blog</title>
     <link href="css/styles.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
-    <script>
-        (function () {
-            emailjs.init("dm952CLH_xAY39Phx"); // Replace with your EmailJS public key
-        })();
-    </script>
+
+ <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+    (function () {
+        emailjs.init("dm952CLH_xAY39Phx"); // Replace with your EmailJS public key
+    })();
+</script>
 </head>
 <body>
 
@@ -63,40 +64,38 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.getElementById("contactForm").addEventListener("submit", function (event) {
-            event.preventDefault();
+<script>
+    document.getElementById("contactForm").addEventListener("submit", function (event) {
+        event.preventDefault();
 
-            // Get the status message element
-            const statusMessage = document.getElementById("statusMessage");
-            const submitButton = document.getElementById("submitButton");
+        const statusMessage = document.getElementById("statusMessage");
+        const submitButton = document.getElementById("submitButton");
 
-            // Show loading message
-            statusMessage.style.display = "block";
-            statusMessage.textContent = "Sending your message...";
-            submitButton.disabled = true;
+        // Show loading message
+        statusMessage.style.display = "block";
+        statusMessage.textContent = "Sending your message...";
+        submitButton.disabled = true;
 
-            emailjs.send("service_jdg79ms", "template_75zca0l", {
-                from_name: document.getElementById("contactName").value,
-                from_email: document.getElementById("contactEmail").value,
-                message: document.getElementById("contactMessage").value,
-            }).then(
-                function (response) {
-                    console.log("Message sent successfully!", response);
-                    statusMessage.textContent = "Your message has been sent successfully!";
-                    statusMessage.className = "text-success";
-                    document.getElementById("contactForm").reset();
-                },
-                function (error) {
-                    console.error("Error occurred:", error);
-                    statusMessage.textContent = "Failed to send the message. Please try again.";
-                    statusMessage.className = "text-danger";
-                }
-            ).finally(() => {
-                submitButton.disabled = false;
-            });
+        emailjs.send("service_jdg79ms", "template_75zca0l", {
+            from_name: document.getElementById("contactName").value,
+            from_email: document.getElementById("contactEmail").value,
+            message: document.getElementById("contactMessage").value,
+        }).then(
+            function (response) {
+                console.log("Message sent successfully!", response);
+                statusMessage.textContent = "Your message has been sent successfully!";
+                statusMessage.className = "text-success";
+                document.getElementById("contactForm").reset();
+            },
+            function (error) {
+                console.error("Error occurred:", error);
+                statusMessage.textContent = "Failed to send the message. Please try again.";
+                statusMessage.className = "text-danger";
+            }
+        ).finally(() => {
+            submitButton.disabled = false;
         });
-    </script>
+    });
+</script>
 </body>
 </html>
