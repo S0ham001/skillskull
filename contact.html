@@ -6,19 +6,23 @@
     <title>Contact - My Simple Blog</title>
     <link href="css/styles.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
+    <script>
+        (function () {
+            emailjs.init("dm952CLH_xAY39Phx"); // Replace with your EmailJS public key
+        })();
+    </script>
 </head>
 <body>
 
     <!-- Navigation Bar -->
-      <nav class = "navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
         <div class="container">
-            <button class="navbar-toggler" type="button"
-            data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navabar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
@@ -27,25 +31,24 @@
             </div>
         </div>
     </nav>
-        <br>
-    <br>
+    <br><br>
 
     <!-- Contact Content -->
     <div class="container">
         <h1 class="mt-5">Contact Me</h1>
         <p>If you have any questions or feedback, feel free to reach out!</p>
-        <form>
+        <form id="contactForm">
             <div class="mb-3">
                 <label for="contactName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="contactName" required>
+                <input type="text" class="form-control" id="contactName" name="from_name" required>
             </div>
             <div class="mb-3">
                 <label for="contactEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="contactEmail" required>
+                <input type="email" class="form-control" id="contactEmail" name="from_email" required>
             </div>
             <div class="mb-3">
                 <label for="contactMessage" class="form-label">Message</label>
-                <textarea class="form-control" id="contactMessage" rows="4" required></textarea>
+                <textarea class="form-control" id="contactMessage" name="message" rows="4" required></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Send Message</button>
         </form>
@@ -58,5 +61,24 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            emailjs.send("service_jdg79ms", "template_75zca0l", {
+                from_name: document.getElementById("contactName").value,
+                from_email: document.getElementById("contactEmail").value,
+                message: document.getElementById("contactMessage").value,
+            }).then(
+                function (response) {
+                    alert("Message sent successfully!");
+                    document.getElementById("contactForm").reset();
+                },
+                function (error) {
+                    alert("Failed to send message. Please try again.");
+                }
+            );
+        });
+    </script>
 </body>
 </html>
