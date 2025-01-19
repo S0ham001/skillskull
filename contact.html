@@ -50,9 +50,12 @@
                 <label for="contactMessage" class="form-label">Message</label>
                 <textarea class="form-control" id="contactMessage" name="message" rows="4" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Send Message</button>
+            <div id="statusMessage" class="text-primary mb-3" style="display: none;"></div>
+            <button type="submit" class="btn btn-primary" id="submitButton">Send Message</button>
         </form>
     </div>
+    <br>
+    <br>
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-4">
@@ -65,19 +68,34 @@
         document.getElementById("contactForm").addEventListener("submit", function (event) {
             event.preventDefault();
 
+            // Get the status message element
+            const statusMessage = document.getElementById("statusMessage");
+            const submitButton = document.getElementById("submitButton");
+
+            // Show loading message
+            statusMessage.style.display = "block";
+            statusMessage.textContent = "Sending your message...";
+            submitButton.disabled = true;
+
             emailjs.send("service_jdg79ms", "template_ifih5gg", {
                 from_name: document.getElementById("contactName").value,
                 from_email: document.getElementById("contactEmail").value,
                 message: document.getElementById("contactMessage").value,
             }).then(
                 function (response) {
-                    alert("Message sent successfully!");
+                    console.log("Message sent successfully!", response);
+                    statusMessage.textContent = "Your message has been sent successfully!";
+                    statusMessage.className = "text-success";
                     document.getElementById("contactForm").reset();
                 },
                 function (error) {
-                    alert("Failed to send message. Please try again.");
+                    console.error("Error occurred:", error);
+                    statusMessage.textContent = "Failed to send the message. Please try again.";
+                    statusMessage.className = "text-danger";
                 }
-            );
+            ).finally(() => {
+                submitButton.disabled = false;
+            });
         });
     </script>
 </body>
